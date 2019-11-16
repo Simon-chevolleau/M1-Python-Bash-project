@@ -1,19 +1,32 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
+# encoding=utf8
 import json
 import argparse
+import pickle
 import re #Regex
+import sys
+#Afin d'éviter les problèmes d'encodage on passe tout le script en encodage utf8
+#Sans cela nous avions rencontré des problèmes malgré le fait d'avoir tout setup en utf8
+#(Sous MacOS)
+reload(sys)
+sys.setdefaultencoding('utf8')
 
-# actor = {}
+actor = {}
 
-# with open('moviedb_small.json', 'r') as file:
-# 	for line in file:
-# 		movie = json.loads(line)
-# 		for name in movie['cast']:
-# 			actor[name] = [movie['title'], movie['year']]
+with open('moviedb_small.json', 'r') as file:
+	for line in file:
+		movie = json.loads(line)
+		for name in movie['cast']:
+			if name in actor:
+				actor[name].append((movie['title'], movie['year']))
+			else:
+				actor[name] = [movie['title'], movie['year']]
+for name in actor:
+	print("\n{}\n{}".format(name, actor[name]))
 
-# f = open('test.json', 'w')
-# f.write(actor)
-# f.close()
+with open('actor.json', 'w') as file: #Sortie fichier
+	test = pickle.Pickler(file) #Création objet pour insérer le dictionnaire
+	test.dump(actor)
 
 #Argument section
 parser = argparse.ArgumentParser()
