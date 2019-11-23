@@ -35,6 +35,7 @@ with open('directors.json', 'w') as data_director:
 
 #Argument section
 parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args(["sys.argv[2]", "sys.argv[3]"])
 parser.add_argument('-c','--create-from-db', dest='createfromdb', action='store_true', help="prend en entrée le fichier JSON passé en paramètre à cette option et crée à partir de la base qu'il contient une base de données d'acteurs et de réalisateurs")
 
 parser.add_argument('-a','--actor', dest='actor', action='store_true', help="Créer une liste au format CSV recensant le nombre de films tournés par les acteurs")
